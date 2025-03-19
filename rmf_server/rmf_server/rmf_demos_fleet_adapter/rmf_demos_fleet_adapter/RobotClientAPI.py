@@ -43,12 +43,13 @@ class RobotAPI:
     # The constructor below accepts parameters typically required to submit
     # http requests. Users should modify the constructor as per the
     # requirements of their robot's API
-    def __init__(self, prefix: str, user: str, password: str):
+    def __init__(self, prefix: str, user: str, password: str, fleet_name):
         self.prefix = prefix
         self.user = user
         self.password = password
         self.timeout = 1.0
         self.debug = False
+        self.fleet_name = fleet_name
 
     def check_connection(self):
         ''' Return True if connection to the robot API server is successful'''
@@ -70,7 +71,7 @@ class RobotAPI:
             else False'''
         assert(len(pose) > 2)
         # if robot_name == 'tinybot1' or robot_name == 'tinybot2':
-        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/navigate?robot_name={robot_name}' \
+        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/navigate?robot_name={self.fleet_name}/{robot_name}' \
         f'&cmd_id={cmd_id}'
         # else:
         #     url = self.prefix +\
@@ -102,7 +103,7 @@ class RobotAPI:
         ''' Request the robot to begin a process. This is specific to the robot
             and the use case. For example, load/unload a cart for Deliverybot
             or begin cleaning a zone for a cleaning robot.'''
-        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/start_activity?robot_name={robot_name}' \
+        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/start_activity?robot_name={self.fleet_name}/{robot_name}' \
               f'&cmd_id={cmd_id}'
 
         # url = (
@@ -136,7 +137,7 @@ class RobotAPI:
         ''' Command the robot to stop.
             Return True if robot has successfully stopped. Else False'''
         # if robot_name == 'tinybot1' or robot_name == 'tinybot2':
-        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/stop_robot?robot_name={robot_name}' \
+        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/stop_robot?robot_name={self.fleet_name}/{robot_name}' \
         f'&cmd_id={cmd_id}'
         # else:
         #     url = self.prefix +\
@@ -157,7 +158,7 @@ class RobotAPI:
     def toggle_teleop(self, robot_name: str, toggle: bool):
         '''Request to toggle the robot's mode_teleop parameter.
            Return True if the toggle request is successful'''
-        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/toggle_teleop?robot_name={robot_name}'
+        url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/toggle_teleop?robot_name={self.fleet_name}/{robot_name}'
 
         # url = self.prefix + f"/open-rmf/rmf_demos_fm/toggle_teleop?robot_name={robot_name}"
         data = {'toggle': toggle}
@@ -182,7 +183,7 @@ class RobotAPI:
         # test aws /robot_state rest api GET
         # elif robot_name == 'tinybot1' or robot_name == 'tinybot2':
         else:
-            url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/robot_state?robot_name={robot_name}'
+            url = f'https://by6gm24s56.execute-api.ap-northeast-2.amazonaws.com/robot_state?robot_name={self.fleet_name}/{robot_name}'
         # else:
         #     url = self.prefix + \
         #           f'/open-rmf/rmf_demos_fm/status?robot_name={robot_name}'

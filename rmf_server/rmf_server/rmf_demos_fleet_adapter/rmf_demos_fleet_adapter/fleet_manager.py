@@ -237,7 +237,7 @@ class FleetManager(Node):
             target_loc.level_name = target_map
             target_loc.obey_approach_speed_limit = False
             if target_speed_limit is not None and target_speed_limit > 0.0:
-                target_loc.obey_approach_speed_limit = True
+                target_loc.obey_approach_speed_limit = False
                 target_loc.approach_speed_limit = target_speed_limit
 
             path_request.fleet_name = self.fleet_name

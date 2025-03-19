@@ -132,7 +132,7 @@ def main(argv=sys.argv):
         robot_api_port = robots_config.get(robot_name, {}).get('port', fleet_mgr_yaml['port'])
         robot_api_user = robots_config.get(robot_name, {}).get('user', fleet_mgr_yaml['user'])
         robot_api_password = robots_config.get(robot_name, {}).get('password', fleet_mgr_yaml['password'])
-
+        fleet_name= config_yaml['rmf_fleet']['name']
         # Construct API prefix for each robot
         api_prefix = f"http://{robot_api_ip}:{robot_api_port}"
         info(f"Robot '{robot_name}' API prefix: {api_prefix}")
@@ -142,7 +142,8 @@ def main(argv=sys.argv):
         api = RobotAPI(
             api_prefix,
             robot_api_user,
-            robot_api_password
+            robot_api_password,
+            fleet_name = fleet_name
         )
 
         robot_config = fleet_config.get_known_robot_configuration(robot_name)
